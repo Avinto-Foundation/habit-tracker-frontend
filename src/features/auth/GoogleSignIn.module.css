@@ -1,0 +1,27 @@
+.google {
+  margin-bottom: var(--space-4);
+}
+
+/* Google draws its own button (in a frame); we only centre it. */
+.button {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}
+
+/* "──────── or ────────" */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-6) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--color-border);
+}
