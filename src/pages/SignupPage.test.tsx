@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { delay, http, HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
@@ -7,6 +7,7 @@ import { tokenStore } from '../api/tokens'
 import { expectNoAxeViolations } from '../test/axe'
 import { renderApp } from '../test/renderApp'
 import { apiUrl, server, testUser } from '../test/server'
+import { HOME_HEADING } from '../test/session'
 
 const VALID = {
   fullName: 'Sam Adhikari',
@@ -74,10 +75,11 @@ describe('SignupPage', () => {
     expect(screen.getByRole('checkbox', { name: /I agree/ })).not.toBeChecked()
   })
 
-  it('links to the login page', () => {
+  it('links to the login page under the form', () => {
     renderApp('/signup')
+    const main = screen.getByRole('main')
 
-    expect(screen.getByRole('link', { name: 'Log in' })).toHaveAttribute('href', '/login')
+    expect(within(main).getByRole('link', { name: 'Log in' })).toHaveAttribute('href', '/login')
   })
 
   it('has no accessibility problems, empty or with errors', async () => {
@@ -161,7 +163,7 @@ describe('SignupPage', () => {
     await fillForm({ fullName: '  Sam Adhikari  ', email: ' sam@example.com ' })
     await submit()
 
-    expect(await screen.findByRole('heading', { name: 'Social Habit Tracker' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
     expect(sent.register).toMatchObject({
       full_name: 'Sam Adhikari', // spaces trimmed
       username: 'sam',
@@ -182,7 +184,7 @@ describe('SignupPage', () => {
     await fillForm()
     await userEvent.type(screen.getByLabelText('Confirm password'), '{Enter}')
 
-    expect(await screen.findByRole('heading', { name: 'Social Habit Tracker' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
   })
 
   it('shows "Creating account…" and blocks double clicks while sending', async () => {
@@ -205,7 +207,7 @@ describe('SignupPage', () => {
     const busyButton = await screen.findByRole('button', { name: 'Creating account…' })
     expect(busyButton).toBeDisabled()
     await userEvent.click(busyButton)
-    await screen.findByRole('heading', { name: 'Social Habit Tracker' })
+    await screen.findByRole('heading', { name: HOME_HEADING })
     expect(registerCalls).toBe(1)
   })
 
@@ -295,7 +297,7 @@ describe('SignupPage', () => {
     await screen.findByRole('alert')
     await submit()
 
-    await screen.findByRole('heading', { name: 'Social Habit Tracker' })
+    await screen.findByRole('heading', { name: HOME_HEADING })
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
@@ -312,6 +314,6 @@ describe('SignupPage', () => {
 
     renderApp('/signup')
 
-    expect(await screen.findByRole('heading', { name: 'Social Habit Tracker' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
   })
 })
