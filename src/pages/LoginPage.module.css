@@ -1,0 +1,17 @@
+/* "Remember me" and "Forgot password?" on one row (wraps on very small screens). */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  column-gap: var(--space-4);
+}
+
+.forgot {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}

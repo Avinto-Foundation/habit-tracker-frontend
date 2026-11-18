@@ -1,5 +1,12 @@
 import { api } from './client'
-import type { GoogleLoginResponse, LoginResponse, RegisterData, UpdateMeData, User } from './types'
+import type {
+  GoogleLoginResponse,
+  LoginResponse,
+  RegisterData,
+  ResetPasswordData,
+  UpdateMeData,
+  User,
+} from './types'
 
 /** One function per backend auth endpoint. They return the response data or throw. */
 
@@ -52,4 +59,19 @@ export async function getMe(): Promise<User> {
 export async function updateMe(data: UpdateMeData): Promise<User> {
   const response = await api.patch<User>('/auth/me/', data)
   return response.data
+}
+
+/**
+ * POST /auth/password-reset/: email a reset link. Returns the backend's message,
+ * which is the same whether or not the email has an account.
+ */
+export async function requestPasswordReset(email: string): Promise<string> {
+  const response = await api.post<{ detail: string }>('/auth/password-reset/', { email })
+  return response.data.detail
+}
+
+/** POST /auth/password-reset/confirm/: set a new password with the link's uid + token. */
+export async function confirmPasswordReset(data: ResetPasswordData): Promise<string> {
+  const response = await api.post<{ detail: string }>('/auth/password-reset/confirm/', data)
+  return response.data.detail
 }

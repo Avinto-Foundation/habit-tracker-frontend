@@ -67,11 +67,13 @@
 .title {
   font-size: var(--text-xl);
   margin-bottom: var(--space-1);
+  text-align: center;
 }
 
 .subtitle {
   margin: 0 0 var(--space-6);
   color: var(--color-text-muted);
+  text-align: center;
 }
 
 .footer {

@@ -14,8 +14,9 @@ import AuthPageLayout from '../features/auth/AuthPageLayout'
 import GoogleSignIn from '../features/auth/GoogleSignIn'
 import { loginSchema, type LoginFormValues } from '../features/auth/loginSchema'
 import { useAuth } from '../hooks/useAuth'
-import { redirectTarget } from '../routes/redirect'
+import { loginNotice, redirectTarget } from '../routes/redirect'
 import { APP_NAME } from '../utils/constants'
+import styles from './LoginPage.module.css'
 
 /**
  * Login page (`/login`). Sends email + password (+ "Remember me") to
@@ -30,6 +31,8 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const goTo = redirectTarget(location.state)
+  // e.g. "Your password has been changed…" after a password reset
+  const notice = loginNotice(location.state)
   const [formError, setFormError] = useState<string | null>(null)
 
   const {
@@ -84,6 +87,7 @@ export default function LoginPage() {
     >
       <title>{`Log in | ${APP_NAME}`}</title>
 
+      {notice && !formError && <Alert variant="success">{notice}</Alert>}
       {formError && <Alert>{formError}</Alert>}
 
       <GoogleSignIn
@@ -108,7 +112,12 @@ export default function LoginPage() {
           error={errors.password?.message}
           {...register('password')}
         />
-        <Checkbox label="Remember me for 7 days" {...register('remember_me')} />
+        <div className={styles.options}>
+          <Checkbox label="Remember me for 7 days" {...register('remember_me')} />
+          <Link to="/forgot-password" className={styles.forgot}>
+            Forgot password?
+          </Link>
+        </div>
         <Button type="submit" fullWidth loading={isSubmitting} loadingText="Logging in…">
           Log in
         </Button>
