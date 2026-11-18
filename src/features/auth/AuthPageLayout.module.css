@@ -1,0 +1,81 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: start;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+/* Left panel: only on wider screens (hidden on mobile, as in the design). */
+.intro {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr 440px;
+  }
+
+  .intro {
+    display: block;
+    padding: var(--space-8) var(--space-4);
+  }
+}
+
+.headline {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-6);
+}
+
+.flame {
+  color: var(--color-streak);
+  margin-bottom: var(--space-4);
+}
+
+.benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+  font-size: var(--text-lg);
+}
+
+.benefits li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.check {
+  color: var(--color-success);
+  flex-shrink: 0;
+}
+
+/* The white form card */
+.card {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-1);
+}
+
+.subtitle {
+  margin: 0 0 var(--space-6);
+  color: var(--color-text-muted);
+}
+
+.footer {
+  margin: var(--space-6) 0 0;
+  text-align: center;
+  font-size: var(--text-sm);
+}
