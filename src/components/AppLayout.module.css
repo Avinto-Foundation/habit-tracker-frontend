@@ -1,0 +1,57 @@
+.skipLink {
+  position: absolute;
+  left: var(--space-4);
+  top: -100px;
+  z-index: 10;
+  padding: var(--space-2) var(--space-4);
+  color: #ffffff;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm);
+}
+
+/* Appears when a keyboard user presses Tab on a new page. */
+.skipLink:focus {
+  top: var(--space-2);
+}
+
+.header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.logo:hover {
+  color: var(--color-text);
+}
+
+.flame {
+  color: var(--color-streak);
+}
+
+.main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+}
+
+.main:focus {
+  outline: none; /* focused by the skip link only; no ring needed */
+}
