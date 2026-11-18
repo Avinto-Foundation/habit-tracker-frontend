@@ -61,6 +61,12 @@ describe('parseApiError', () => {
     expect(parseApiError(httpError(500, '<html>Server Error</html>')).message).toBe(MESSAGES.server)
   })
 
+  it("keeps the API's own explanation for a 5xx error when it sends one", () => {
+    const error = httpError(503, { detail: 'Google sign-in is not available right now.' })
+
+    expect(parseApiError(error).message).toBe('Google sign-in is not available right now.')
+  })
+
   it('gives a friendly message when the server cannot be reached', () => {
     const error = new AxiosError('Network Error', 'ERR_NETWORK')
 

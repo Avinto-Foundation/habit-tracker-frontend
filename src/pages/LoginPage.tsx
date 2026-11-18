@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { isAxiosError } from 'axios'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router'
 import { parseApiError } from '../api/errors'
 import Alert from '../components/Alert'
@@ -11,6 +11,7 @@ import LoadingScreen from '../components/LoadingScreen'
 import PasswordField from '../components/PasswordField'
 import TextField from '../components/TextField'
 import AuthPageLayout from '../features/auth/AuthPageLayout'
+import GoogleSignIn from '../features/auth/GoogleSignIn'
 import { loginSchema, type LoginFormValues } from '../features/auth/loginSchema'
 import { useAuth } from '../hooks/useAuth'
 import { redirectTarget } from '../routes/redirect'
@@ -36,11 +37,14 @@ export default function LoginPage() {
     handleSubmit,
     setError,
     resetField,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '', remember_me: false },
   })
+  // "Remember me" also applies to "Continue with Google".
+  const rememberMe = useWatch({ control, name: 'remember_me' })
 
   const onSubmit = handleSubmit(async (values) => {
     setFormError(null)
@@ -81,6 +85,12 @@ export default function LoginPage() {
       <title>{`Log in | ${APP_NAME}`}</title>
 
       {formError && <Alert>{formError}</Alert>}
+
+      <GoogleSignIn
+        rememberMe={rememberMe}
+        onSignedIn={() => navigate(goTo, { replace: true })}
+        onError={setFormError}
+      />
 
       <form onSubmit={onSubmit} noValidate>
         <TextField

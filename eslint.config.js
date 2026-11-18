@@ -20,6 +20,11 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // Test helpers are never hot-reloaded, so they may mix components and other exports.
+    files: ['src/test/**/*.{ts,tsx}'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
   // Turn off ESLint rules that clash with Prettier's formatting. Keep this last.
   prettier,
 ])

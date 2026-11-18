@@ -14,6 +14,11 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
+    // Fixed values for tests, so they don't depend on anyone's own .env file.
+    env: {
+      VITE_API_BASE_URL: 'http://localhost:8000/api',
+      VITE_GOOGLE_CLIENT_ID: 'test-client-id.apps.googleusercontent.com',
+    },
     css: true,
   },
 })

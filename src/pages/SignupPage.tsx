@@ -10,6 +10,7 @@ import LoadingScreen from '../components/LoadingScreen'
 import PasswordField from '../components/PasswordField'
 import TextField from '../components/TextField'
 import AuthPageLayout from '../features/auth/AuthPageLayout'
+import GoogleSignIn from '../features/auth/GoogleSignIn'
 import { signupSchema, type SignupFormValues } from '../features/auth/signupSchema'
 import { useAuth } from '../hooks/useAuth'
 import { APP_NAME } from '../utils/constants'
@@ -93,6 +94,8 @@ export default function SignupPage() {
       <title>{`Sign up | ${APP_NAME}`}</title>
 
       {formError && <Alert>{formError}</Alert>}
+
+      <GoogleSignIn onSignedIn={() => navigate('/', { replace: true })} onError={setFormError} />
 
       <form onSubmit={onSubmit} noValidate>
         <TextField

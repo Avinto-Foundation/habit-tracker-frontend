@@ -33,7 +33,12 @@ export function parseApiError(error: unknown): ApiError {
   if (!error.response) return { fields: {}, message: MESSAGES.network }
 
   const { status, data } = error.response
-  if (status >= 500) return { fields: {}, message: MESSAGES.server }
+  if (status >= 500) {
+    // Use the API's own explanation if it sent one (e.g. 503 "Google sign-in is not
+    // available right now..."); a crash page (HTML) gets the general message.
+    const detail = (data as { detail?: unknown } | null)?.detail
+    return { fields: {}, message: typeof detail === 'string' ? detail : MESSAGES.server }
+  }
   if (typeof data !== 'object' || data === null) return { fields: {}, message: MESSAGES.unknown }
 
   const fields: Record<string, string> = {}
