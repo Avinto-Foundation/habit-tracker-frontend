@@ -20,6 +20,14 @@ export interface RegisterData {
   timezone?: string
 }
 
+/** Body for POST /auth/password-reset/confirm/. `uid` and `token` come from the email link. */
+export interface ResetPasswordData {
+  uid: string
+  token: string
+  new_password: string
+  new_password_confirm: string
+}
+
 /** Body for PATCH /auth/me/: send only what changes. */
 export type UpdateMeData = Partial<Pick<User, 'full_name' | 'username' | 'timezone'>>
 

@@ -127,3 +127,31 @@ describe('auth API calls', () => {
     expect(user.timezone).toBe('Europe/London')
   })
 })
+
+describe('password reset API calls', () => {
+  it('requestPasswordReset() posts the email and returns the message', async () => {
+    const sent = captureBody('post', '/auth/password-reset/', { detail: 'Check your inbox.' })
+
+    const message = await authApi.requestPasswordReset('sam@example.com')
+
+    expect(sent.body).toEqual({ email: 'sam@example.com' })
+    expect(message).toBe('Check your inbox.')
+  })
+
+  it('confirmPasswordReset() posts uid, token and the new password', async () => {
+    const sent = captureBody('post', '/auth/password-reset/confirm/', {
+      detail: 'Your password has been changed.',
+    })
+    const data = {
+      uid: 'MQ',
+      token: 'abc-123',
+      new_password: 'my-New-pass-2',
+      new_password_confirm: 'my-New-pass-2',
+    }
+
+    const message = await authApi.confirmPasswordReset(data)
+
+    expect(sent.body).toEqual(data)
+    expect(message).toBe('Your password has been changed.')
+  })
+})

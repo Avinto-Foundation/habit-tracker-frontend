@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { redirectTarget } from './redirect'
+import { loginNotice, redirectTarget } from './redirect'
 
 const from = (pathname: string, search = '', hash = '') => ({ from: { pathname, search, hash } })
 
@@ -29,5 +29,20 @@ describe('redirectTarget', () => {
   it('ignores broken state', () => {
     expect(redirectTarget({ from: { pathname: 42 } })).toBe('/')
     expect(redirectTarget('nonsense')).toBe('/')
+  })
+})
+
+describe('loginNotice', () => {
+  it('returns the message passed to the login page', () => {
+    expect(loginNotice({ notice: 'Your password has been changed.' })).toBe(
+      'Your password has been changed.',
+    )
+  })
+
+  it('returns null when there is no message', () => {
+    expect(loginNotice(null)).toBeNull()
+    expect(loginNotice({})).toBeNull()
+    expect(loginNotice({ notice: '' })).toBeNull()
+    expect(loginNotice({ notice: 42 })).toBeNull()
   })
 })
