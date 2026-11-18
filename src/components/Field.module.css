@@ -1,0 +1,112 @@
+/* Shared styles for TextField, PasswordField and Checkbox. */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* The box around the input (so a prefix or a button can sit inside it). */
+.control {
+  display: flex;
+  align-items: center;
+  min-height: 44px; /* big enough to tap (Fitts's Law) */
+  background: var(--color-surface);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+}
+
+/* Draw the focus ring around the whole box, not just the text part. */
+.control:has(.input:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.control.invalid {
+  border: 2px solid var(--color-error);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+}
+
+.input:focus-visible {
+  outline: none; /* the .control box shows the ring instead */
+}
+
+.prefix {
+  padding-left: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-error);
+}
+
+.errorIcon {
+  flex-shrink: 0;
+}
+
+/* Show / hide password button inside the box */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  color: var(--color-text);
+}
+
+/* Checkbox */
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  font-size: var(--text-sm);
+}

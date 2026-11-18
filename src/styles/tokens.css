@@ -1,0 +1,51 @@
+/*
+ * Design tokens: the app's colours, font, spacing and shapes in one place.
+ * Use them as var(--color-primary) etc. instead of typing raw values.
+ * Colours come from docs/04-research-persona-moodboard.md; contrast ratios are
+ * against white (#FFFFFF) unless noted. WCAG AA: text 4.5:1, UI parts 3:1.
+ */
+:root {
+  /* Brand */
+  --color-primary: #0f766e; /* teal, 5.47:1 - buttons, links */
+  --color-primary-dark: #115e59; /* 7.58:1 - hover / pressed */
+  --color-primary-soft: #ccfbf1; /* light teal background */
+  --color-streak: #c2410c; /* orange, 5.18:1 - streak flame */
+
+  /* Feedback */
+  --color-success: #15803d; /* 5.02:1 */
+  --color-error: #b91c1c; /* 6.47:1 */
+  --color-error-soft: #fef2f2;
+
+  /* Text and surfaces */
+  --color-text: #111827; /* 17.74:1 */
+  --color-text-muted: #4b5563; /* 7.56:1 - hints, secondary text */
+  --color-background: #f9fafb;
+  --color-surface: #ffffff;
+  --color-border: #d1d5db; /* decorative lines only (dividers, card edges) */
+  --color-input-border: #6b7280; /* 4.83:1 - input outlines must be at least 3:1 */
+
+  /* Type */
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+
+  /* Spacing (4px steps) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.08), 0 4px 12px rgb(0 0 0 / 0.04);
+
+  /* Focus ring: visible on every focusable element (WCAG 2.4.7) */
+  --focus-ring: 2px solid var(--color-primary);
+  --focus-offset: 2px;
+}
