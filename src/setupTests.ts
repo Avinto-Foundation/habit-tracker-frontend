@@ -1,8 +1,22 @@
 import '@testing-library/jest-dom/vitest'
 import { cleanup } from '@testing-library/react'
-import { afterEach } from 'vitest'
+import { afterAll, afterEach, beforeAll } from 'vitest'
+import { tokenStore } from './api/tokens'
+import { server } from './test/server'
 
-// Remove whatever a test rendered, so the next test starts clean.
+// Start the fake backend. A request no test set up is an error, not a silent pass.
+beforeAll(() => {
+  server.listen({ onUnhandledFrame: 'error' })
+})
+
 afterEach(() => {
-  cleanup()
+  cleanup() // remove whatever a test rendered
+  server.resetHandlers() // forget the fake responses this test added
+  tokenStore.clear() // log out, so the next test starts fresh
+  localStorage.clear()
+  sessionStorage.clear()
+})
+
+afterAll(() => {
+  server.close()
 })
