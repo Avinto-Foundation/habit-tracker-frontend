@@ -1,9 +1,18 @@
-/** Home page, shown at `/`. A placeholder until the dashboard is built. */
+import { useAuth } from '../hooks/useAuth'
+import { APP_NAME } from '../utils/constants'
+
+/**
+ * Home page, shown at `/` to logged-in users. A placeholder until the dashboard
+ * (today's habits) is built in Sprint 2.
+ */
 export default function HomePage() {
+  const { user } = useAuth()
+
   return (
     <section>
-      <h1>Social Habit Tracker</h1>
-      <p>Build habits together with your friends.</p>
+      <title>{`Home | ${APP_NAME}`}</title>
+      <h1>Hi, {user?.full_name}!</h1>
+      <p>Your habits will appear here soon.</p>
     </section>
   )
 }

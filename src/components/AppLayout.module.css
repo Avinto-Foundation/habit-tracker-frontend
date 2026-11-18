@@ -55,3 +55,33 @@
 .main:focus {
   outline: none; /* focused by the skip link only; no ring needed */
 }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.greeting {
+  font-weight: 500;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px; /* easy to tap */
+  padding: 0 var(--space-2);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+/* NavLink marks the link to the current page; show it clearly (not by colour only). */
+.navLink[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

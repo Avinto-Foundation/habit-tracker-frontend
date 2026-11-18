@@ -6,6 +6,7 @@ import { parseApiError } from '../api/errors'
 import Alert from '../components/Alert'
 import Button from '../components/Button'
 import Checkbox from '../components/Checkbox'
+import LoadingScreen from '../components/LoadingScreen'
 import PasswordField from '../components/PasswordField'
 import TextField from '../components/TextField'
 import AuthPageLayout from '../features/auth/AuthPageLayout'
@@ -75,7 +76,8 @@ export default function SignupPage() {
     }
   })
 
-  // Already logged in? Nothing to do here.
+  // Still checking a saved login, or already logged in? Nothing to do here yet.
+  if (status === 'loading') return <LoadingScreen />
   if (status === 'authenticated') return <Navigate to="/" replace />
 
   return (

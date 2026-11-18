@@ -1,13 +1,26 @@
 import { Flame } from 'lucide-react'
-import { Link, Outlet } from 'react-router'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router'
+import { useAuth } from '../hooks/useAuth'
 import { APP_NAME } from '../utils/constants'
 import styles from './AppLayout.module.css'
+import Button from './Button'
 
 /**
- * The frame around every page: a "Skip to main content" link, the header with the
- * logo, and a `<main>` where the current page (`<Outlet />`) is shown.
+ * The frame around every page: a "Skip to main content" link, the header (logo +
+ * account links) and a `<main>` where the current page (`<Outlet />`) is shown.
+ *
+ * Header: logged in → "Hi, <first name>" and a Log out button;
+ * logged out → Log in / Sign up links; while checking a saved login → nothing.
  */
 export default function AppLayout() {
+  const { user, status, logout } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    await logout()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <>
       <a href="#main-content" className={styles.skipLink}>
@@ -19,6 +32,27 @@ export default function AppLayout() {
             <Flame className={styles.flame} size={24} aria-hidden="true" />
             {APP_NAME}
           </Link>
+
+          <nav aria-label="Account" className={styles.nav}>
+            {status === 'authenticated' && user && (
+              <>
+                <span className={styles.greeting}>Hi, {user.full_name.split(' ')[0]}</span>
+                <Button variant="secondary" onClick={handleLogout}>
+                  Log out
+                </Button>
+              </>
+            )}
+            {status === 'anonymous' && (
+              <>
+                <NavLink to="/login" className={styles.navLink}>
+                  Log in
+                </NavLink>
+                <NavLink to="/signup" className={styles.navLink}>
+                  Sign up
+                </NavLink>
+              </>
+            )}
+          </nav>
         </div>
       </header>
       <main id="main-content" tabIndex={-1} className={styles.main}>
