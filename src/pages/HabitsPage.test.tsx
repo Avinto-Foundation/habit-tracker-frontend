@@ -119,4 +119,50 @@ describe('HabitsPage', () => {
 
     expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument()
   })
+
+  it("links each habit's name to its page", async () => {
+    startLoggedIn()
+    fakeHabitList(HABITS)
+    renderApp('/habits')
+
+    expect(await screen.findByRole('link', { name: 'Gym' })).toHaveAttribute('href', '/habits/2')
+  })
+
+  it('switches to archived habits and back', async () => {
+    const asked: (string | null)[] = []
+    startLoggedIn()
+    server.use(
+      http.get(apiUrl('/habits/'), ({ request }) => {
+        const archived = new URL(request.url).searchParams.get('archived')
+        asked.push(archived)
+        return HttpResponse.json(
+          archived === 'true' ? [makeHabit({ id: 9, name: 'Old habit', archived: true })] : HABITS,
+        )
+      }),
+    )
+    renderApp('/habits')
+    const tabs = within(await screen.findByRole('navigation', { name: 'Habit list' }))
+    expect(tabs.getByRole('link', { name: 'Active' })).toHaveAttribute('aria-current', 'page')
+
+    await userEvent.click(tabs.getByRole('link', { name: 'Archived' }))
+
+    expect(await screen.findByRole('link', { name: 'Old habit' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Archived habits' })).toBeInTheDocument()
+    expect(tabs.getByRole('link', { name: 'Archived' })).toHaveAttribute('aria-current', 'page')
+    expect(screen.queryByRole('link', { name: 'Read' })).not.toBeInTheDocument()
+    expect(asked).toEqual([null, 'true'])
+
+    await userEvent.click(tabs.getByRole('link', { name: 'Active' }))
+
+    expect(await screen.findByRole('link', { name: 'Read' })).toBeInTheDocument()
+  })
+
+  it('says so when there are no archived habits', async () => {
+    startLoggedIn()
+    fakeHabitList([])
+    renderApp('/habits?archived=true')
+
+    expect(await screen.findByText('No archived habits')).toBeInTheDocument()
+    expect(screen.queryByText('No habits yet')).not.toBeInTheDocument()
+  })
 })

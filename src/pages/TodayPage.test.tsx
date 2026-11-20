@@ -289,4 +289,10 @@ describe('TodayPage', () => {
     const nav = screen.getByRole('navigation', { name: 'Main' })
     expect(within(nav).getByRole('link', { name: 'Today' })).toHaveAttribute('aria-current', 'page')
   })
+
+  it("links each habit's name to its page", async () => {
+    await openToday()
+
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/habits/1')
+  })
 })

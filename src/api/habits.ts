@@ -1,5 +1,5 @@
 import { api } from './client'
-import type { Habit, HabitInput, HabitUpdate, Today } from './types'
+import type { Habit, HabitInput, HabitStats, HabitUpdate, Today } from './types'
 
 /** One function per backend habits endpoint. They return the response data or throw. */
 
@@ -40,5 +40,13 @@ export async function deleteHabit(id: number): Promise<void> {
 /** GET /habits/today/: today's habits (due and not due), progress and streaks. */
 export async function getToday(): Promise<Today> {
   const response = await api.get<Today>('/habits/today/')
+  return response.data
+}
+
+/** GET /habits/<id>/stats/: streaks and progress, plus a calendar for `month` (YYYY-MM). */
+export async function getHabitStats(id: number, month?: string): Promise<HabitStats> {
+  const response = await api.get<HabitStats>(`/habits/${id}/stats/`, {
+    params: month ? { month } : undefined,
+  })
   return response.data
 }

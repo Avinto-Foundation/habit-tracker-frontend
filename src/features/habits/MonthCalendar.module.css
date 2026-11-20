@@ -1,0 +1,137 @@
+.calendar {
+  max-width: 420px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.month {
+  margin: 0;
+  font-weight: 600;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.navButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  table-layout: fixed;
+}
+
+.table th {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.table td {
+  padding: 0;
+  text-align: center;
+}
+
+.day {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 48px;
+  aspect-ratio: 1;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+}
+
+/* Small ✓ ★ ✕ in the corner so status isn't shown by colour alone. */
+.mark {
+  position: absolute;
+  top: 1px;
+  right: 3px;
+  font-size: 0.625rem;
+  line-height: 1;
+}
+
+/* Habit colour is set inline for done (filled) and bonus (ring). */
+.done {
+  color: #ffffff;
+}
+
+.bonus {
+  background: var(--color-surface);
+}
+
+.missed {
+  color: var(--color-error);
+  background: var(--color-error-soft);
+  border-color: var(--color-error);
+}
+
+.pending {
+  border: 2px dashed var(--color-input-border);
+}
+
+.off {
+  color: var(--color-text-muted);
+  background: var(--color-background);
+}
+
+.future,
+.before_start {
+  color: var(--color-text-muted);
+}
+
+/* Today gets a strong outline whatever its status. */
+.day[aria-current='date'] {
+  outline: 2px solid var(--color-text);
+  outline-offset: 1px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  font-size: var(--text-sm);
+  list-style: none;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.swatch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 0.625rem;
+  border: 2px solid transparent;
+  border-radius: 4px;
+}
