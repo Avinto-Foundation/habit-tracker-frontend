@@ -11,6 +11,7 @@ import NotFoundPage from '../pages/NotFoundPage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
 import SignupPage from '../pages/SignupPage'
 import TodayPage from '../pages/TodayPage'
+import WelcomePage from '../pages/WelcomePage'
 import ProtectedRoute from './ProtectedRoute'
 
 /**
@@ -34,6 +35,7 @@ export default function AppRoutes() {
         {/* Pages that need a login */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<TodayPage />} />
+          <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/habits" element={<HabitsPage />} />
           <Route path="/habits/new" element={<NewHabitPage />} />
           <Route path="/habits/:id" element={<HabitDetailPage />} />

@@ -37,3 +37,6 @@ export function fakeLoginOk(user: User = testUser) {
 export const HOME_HEADING = new RegExp(
   `^Good (morning|afternoon|evening), ${testUser.full_name.split(' ')[0]}$`,
 )
+
+/** The first onboarding heading, shown right after signing up. */
+export const WELCOME_HEADING = 'Confirm your time zone'
