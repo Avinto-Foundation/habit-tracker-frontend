@@ -1,0 +1,151 @@
+.form {
+  max-width: 560px;
+}
+
+.group {
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  border: none;
+}
+
+.legend {
+  display: block;
+  margin-bottom: var(--space-2);
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Shared look for the icon, colour and day choices (hidden radio/checkbox inside). */
+.iconChoice,
+.colorChoice,
+.dayChoice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px; /* easy to tap (Fitts's Law) */
+  height: 44px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+/* The radio/checkbox itself is hidden, so draw the keyboard focus ring on its box. */
+.iconChoice:has(input:focus-visible),
+.colorChoice:has(input:focus-visible),
+.dayChoice:has(input:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.iconChoice {
+  font-size: 1.375rem;
+}
+
+/* Chosen: thick teal border + soft background (not colour alone: the border gets thicker). */
+.iconChoice:has(input:checked),
+.dayChoice:has(input:checked) {
+  background: var(--color-primary-soft);
+  border: 3px solid var(--color-primary);
+}
+
+.dayChoice {
+  min-width: 56px;
+  padding: 0 var(--space-2);
+  font-weight: 600;
+}
+
+.colorChoice {
+  border-radius: 50%;
+  border-color: transparent;
+}
+
+.swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* Chosen colour: a dark ring around the swatch. */
+.colorChoice:has(input:checked) {
+  border: 3px solid var(--color-text);
+}
+
+.schedules {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.scheduleChoice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.scheduleChoice:has(input:checked) {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--color-primary);
+}
+
+.scheduleLabel {
+  display: block;
+  font-weight: 600;
+}
+
+.hint {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.select {
+  min-height: 44px;
+  min-width: 200px;
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  color: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+}
+
+.select[aria-invalid='true'] {
+  border: 2px solid var(--color-error);
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-error);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
