@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { MESSAGES } from '../api/errors'
 import type { Habit } from '../api/types'
 import { expectNoAxeViolations } from '../test/axe'
-import { fakeHabitList, makeHabit } from '../test/habits'
+import { fakeHabitPage, makeHabit } from '../test/habits'
 import { renderApp } from '../test/renderApp'
 import { apiUrl, server } from '../test/server'
 import { startLoggedIn } from '../test/session'
@@ -60,7 +60,7 @@ describe('EditHabitPage', () => {
     expect(screen.getByRole('radio', { name: 'Current (🦄)' })).toBeChecked()
   })
 
-  it('saves the changes and goes back to the list with a message', async () => {
+  it("saves the changes and goes back to the habit's page with a message", async () => {
     let sent: unknown
     server.use(
       http.patch(apiUrl('/habits/4/'), async ({ request }) => {
@@ -68,7 +68,7 @@ describe('EditHabitPage', () => {
         return HttpResponse.json({ ...GYM, name: 'Gym session' })
       }),
     )
-    fakeHabitList([GYM])
+    fakeHabitPage(GYM)
     await openEdit()
 
     await userEvent.clear(screen.getByLabelText('Name'))
@@ -76,7 +76,7 @@ describe('EditHabitPage', () => {
     await userEvent.click(screen.getByRole('checkbox', { name: 'Friday' }))
     await userEvent.click(screen.getByRole('button', { name: 'Save changes' }))
 
-    expect(await screen.findByRole('heading', { name: 'Your habits' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Progress' })).toBeInTheDocument()
     expect(screen.getByRole('alert')).toHaveTextContent('“Gym session” was saved.')
     expect(sent).toEqual({
       name: 'Gym session',
@@ -97,13 +97,13 @@ describe('EditHabitPage', () => {
         return HttpResponse.json(GYM)
       }),
     )
-    fakeHabitList([GYM])
+    fakeHabitPage(GYM)
     await openEdit()
 
     await userEvent.click(screen.getByRole('radio', { name: 'Every day' }))
     await userEvent.click(screen.getByRole('button', { name: 'Save changes' }))
 
-    await screen.findByRole('heading', { name: 'Your habits' })
+    await screen.findByRole('heading', { name: 'Progress' })
     expect(sent).toMatchObject({ schedule_type: 'daily', weekdays: [], times_per_week: null })
   })
 

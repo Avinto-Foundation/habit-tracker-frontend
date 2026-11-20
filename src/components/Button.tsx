@@ -3,8 +3,11 @@ import type { ComponentPropsWithRef } from 'react'
 import styles from './Button.module.css'
 
 export interface ButtonProps extends ComponentPropsWithRef<'button'> {
-  /** `primary` = teal main action; `secondary` = white with border. */
-  variant?: 'primary' | 'secondary'
+  /**
+   * `primary` = teal main action; `secondary` = white with border;
+   * `danger` = red, for actions that can't be undone (e.g. "Delete habit").
+   */
+  variant?: 'primary' | 'secondary' | 'danger'
   /** Shows a spinner and disables the button (e.g. while a form is sending). */
   loading?: boolean
   /** Text shown while loading, e.g. "Creating account…". Defaults to the normal text. */

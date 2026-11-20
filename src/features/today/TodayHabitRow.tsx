@@ -1,4 +1,5 @@
 import { Check, Flame } from 'lucide-react'
+import { Link } from 'react-router'
 import type { TodayHabit } from '../../api/types'
 import { streakText } from './greeting'
 import styles from './TodayHabitRow.module.css'
@@ -34,7 +35,9 @@ export default function TodayHabitRow({ entry, onToggle, saving }: TodayHabitRow
       </span>
 
       <div className={styles.details}>
-        <span className={styles.name}>{habit.name}</span>
+        <Link to={`/habits/${habit.id}`} className={styles.name}>
+          {habit.name}
+        </Link>
         <span className={styles.meta}>
           {habit.target && <span>{habit.target}</span>}
           {current_streak > 0 && (

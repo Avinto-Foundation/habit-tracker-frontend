@@ -32,6 +32,15 @@
   background: var(--color-background);
 }
 
+.danger {
+  color: #ffffff;
+  background: var(--color-error);
+}
+
+.danger:hover:not(:disabled) {
+  background: #991b1b; /* darker red, 8.3:1 with white */
+}
+
 .fullWidth {
   width: 100%;
 }

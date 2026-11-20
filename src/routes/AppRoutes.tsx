@@ -3,6 +3,7 @@ import AppLayout from '../components/AppLayout'
 import ComponentsPreviewPage from '../pages/ComponentsPreviewPage'
 import EditHabitPage from '../pages/EditHabitPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
+import HabitDetailPage from '../pages/HabitDetailPage'
 import HabitsPage from '../pages/HabitsPage'
 import LoginPage from '../pages/LoginPage'
 import NewHabitPage from '../pages/NewHabitPage'
@@ -35,6 +36,7 @@ export default function AppRoutes() {
           <Route path="/" element={<TodayPage />} />
           <Route path="/habits" element={<HabitsPage />} />
           <Route path="/habits/new" element={<NewHabitPage />} />
+          <Route path="/habits/:id" element={<HabitDetailPage />} />
           <Route path="/habits/:id/edit" element={<EditHabitPage />} />
         </Route>
 

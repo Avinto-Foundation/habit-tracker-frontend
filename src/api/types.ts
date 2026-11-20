@@ -124,3 +124,36 @@ export interface Today {
   /** Not due today, but can still be ticked off as a bonus. */
   not_due: TodayHabit[]
 }
+
+/**
+ * A day in the stats calendar:
+ * - `done`: scheduled and done · `bonus`: done on a day off
+ * - `missed`: scheduled, not done · `pending`: today, not done yet
+ * - `off`: not scheduled · `future`: not here yet · `before_start`: before the habit existed
+ */
+export type CalendarStatus =
+  'done' | 'bonus' | 'missed' | 'pending' | 'off' | 'future' | 'before_start'
+
+export interface CalendarDay {
+  /** YYYY-MM-DD */
+  date: string
+  status: CalendarStatus
+}
+
+/** Response of GET /habits/<id>/stats/ (with `?month=` for the calendar). */
+export interface HabitStats {
+  habit: number
+  /** Today in the user's time zone, YYYY-MM-DD. */
+  today: string
+  current_streak: number
+  longest_streak: number
+  streak_unit: 'days' | 'weeks'
+  /** Percent of the plan done in the last 30 days; null if nothing was due yet. */
+  completion_rate: number | null
+  total_checkins: number
+  done_today: boolean
+  /** Only for "times per week" habits. */
+  week_progress: WeekProgress | null
+  /** Only when `?month=` was sent. */
+  calendar: { month: string; days: CalendarDay[] } | null
+}

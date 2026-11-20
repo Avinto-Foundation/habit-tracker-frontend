@@ -29,9 +29,16 @@
   min-width: 0;
 }
 
+/* The name links to the habit's page. */
 .name {
+  align-self: flex-start;
   font-weight: 600;
+  color: var(--color-text);
   overflow-wrap: anywhere;
+}
+
+.name:hover {
+  color: var(--color-primary-dark);
 }
 
 /* Done: the name is crossed out (meaning not shown by colour alone). */

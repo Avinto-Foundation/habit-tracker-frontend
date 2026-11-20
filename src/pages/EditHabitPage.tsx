@@ -18,7 +18,7 @@ type LoadState =
 
 /**
  * "Edit habit" (`/habits/:id/edit`): loads the habit, fills the form with it and
- * saves changes with `PATCH /api/habits/<id>/`, then goes back to the habits list.
+ * saves changes with `PATCH /api/habits/<id>/`, then goes back to the habit's page.
  *
  * A habit that doesn't exist or belongs to someone else (the API says 404 for both,
  * so nobody can tell which) shows "Habit not found".
@@ -75,10 +75,10 @@ export default function EditHabitPage() {
           initialValues={habitToFormValues(state.habit)}
           submitLabel="Save changes"
           submittingText="Saving…"
-          cancelTo="/habits"
+          cancelTo={`/habits/${habitId}`}
           onSubmit={async (data) => {
             const habit = await updateHabit(habitId, data)
-            navigate('/habits', { state: { notice: `“${habit.name}” was saved.` } })
+            navigate(`/habits/${habitId}`, { state: { notice: `“${habit.name}” was saved.` } })
           }}
         />
       )}

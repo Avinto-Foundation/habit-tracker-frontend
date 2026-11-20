@@ -19,3 +19,22 @@ export async function checkIn(
 export async function undoCheckIn(habitId: number, date: string): Promise<void> {
   await api.delete(`/habits/${habitId}/checkins/${date}/`)
 }
+
+/** GET /habits/<id>/checkins/: check-ins, oldest first, optionally from/to (inclusive). */
+export async function listCheckIns(
+  habitId: number,
+  range: { from?: string; to?: string } = {},
+): Promise<CheckIn[]> {
+  const response = await api.get<CheckIn[]>(`/habits/${habitId}/checkins/`, { params: range })
+  return response.data
+}
+
+/** PATCH /habits/<id>/checkins/<date>/: change a check-in's note (empty string removes it). */
+export async function updateCheckInNote(
+  habitId: number,
+  date: string,
+  note: string,
+): Promise<CheckIn> {
+  const response = await api.patch<CheckIn>(`/habits/${habitId}/checkins/${date}/`, { note })
+  return response.data
+}

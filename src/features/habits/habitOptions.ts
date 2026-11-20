@@ -1,4 +1,4 @@
-import type { Habit } from '../../api/types'
+import type { CalendarStatus, Habit } from '../../api/types'
 
 /** A choice in the icon or colour picker. `label` is what screen readers say. */
 export interface Option {
@@ -74,4 +74,15 @@ export function scheduleLabel(habit: Pick<Habit, 'schedule_type' | 'weekdays' | 
       return times === 1 ? 'Once a week' : `${times} times a week`
     }
   }
+}
+
+/** What each calendar day status means, in words (read by screen readers, shown in the key). */
+export const STATUS_TEXT: Record<CalendarStatus, string> = {
+  done: 'Done',
+  bonus: 'Bonus (done on a day off)',
+  missed: 'Missed',
+  pending: 'Today, not done yet',
+  off: 'Day off',
+  future: 'Coming up',
+  before_start: 'Before you started',
 }
