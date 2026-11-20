@@ -45,6 +45,21 @@
   animation: spin 0.8s linear infinite;
 }
 
+/* LinkButton: a link styled as a button. */
+.link {
+  text-decoration: none;
+}
+
+.link.primary:hover {
+  color: #ffffff;
+  background: var(--color-primary-dark);
+}
+
+.link.secondary:hover {
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

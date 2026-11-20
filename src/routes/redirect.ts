@@ -10,11 +10,17 @@ export interface LoginNoticeState {
   notice?: string
 }
 
-/** The notice passed to the login page, or null. */
-export function loginNotice(state: unknown): string | null {
+/**
+ * The notice passed to a page with `navigate(to, { state: { notice } })`, or null.
+ * E.g. the login page's "Your password has been changed…" or "Habit created.".
+ */
+export function pageNotice(state: unknown): string | null {
   const notice = (state as LoginNoticeState | null)?.notice
   return typeof notice === 'string' && notice ? notice : null
 }
+
+/** The notice passed to the login page, or null. */
+export const loginNotice = pageNotice
 
 /**
  * Where to send the user after logging in: the page they were trying to open,

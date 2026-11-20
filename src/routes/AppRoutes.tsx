@@ -1,9 +1,12 @@
 import { Route, Routes } from 'react-router'
 import AppLayout from '../components/AppLayout'
 import ComponentsPreviewPage from '../pages/ComponentsPreviewPage'
+import EditHabitPage from '../pages/EditHabitPage'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
+import HabitsPage from '../pages/HabitsPage'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
+import NewHabitPage from '../pages/NewHabitPage'
 import NotFoundPage from '../pages/NotFoundPage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
 import SignupPage from '../pages/SignupPage'
@@ -30,6 +33,9 @@ export default function AppRoutes() {
         {/* Pages that need a login */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/habits" element={<HabitsPage />} />
+          <Route path="/habits/new" element={<NewHabitPage />} />
+          <Route path="/habits/:id/edit" element={<EditHabitPage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
