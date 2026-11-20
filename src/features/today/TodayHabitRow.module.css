@@ -1,0 +1,102 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* Emoji in a circle with the habit's colour as the ring and a light tint inside. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  font-size: 1.375rem;
+  border: 2px solid;
+  border-radius: 50%;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Done: the name is crossed out (meaning not shown by colour alone). */
+.done .name {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+  color: var(--color-streak);
+}
+
+/* The check button: a big round target, easy to hit with a thumb (Fitts's Law). */
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  color: var(--color-input-border);
+  background: var(--color-surface);
+  border: 2px solid var(--color-input-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    transform 0.15s;
+}
+
+.check:hover:not(:disabled) {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* Done: filled with the habit's colour (set inline) and a white tick. */
+.check[aria-pressed='true'] {
+  color: #ffffff;
+  animation: pop 0.25s ease-out;
+}
+
+.check[aria-pressed='true']:hover:not(:disabled) {
+  color: #ffffff;
+}
+
+.check:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.15);
+  }
+}

@@ -84,3 +84,43 @@ export type HabitInput = Pick<
 
 /** Body for editing a habit (PATCH /habits/<id>/): send only what changes. */
 export type HabitUpdate = Partial<HabitInput & Pick<Habit, 'archived'>>
+
+/** A check-in: the habit was done on `date` (YYYY-MM-DD, in the user's time zone). */
+export interface CheckIn {
+  id: number
+  habit: number
+  date: string
+  /** Optional short note (max 280 characters). Empty string if none. */
+  note: string
+  created_at: string
+}
+
+/** This week's check-ins vs the goal, for "times per week" habits. */
+export interface WeekProgress {
+  done: number
+  goal: number
+}
+
+/** One habit on the Today page. */
+export interface TodayHabit {
+  habit: Habit
+  done_today: boolean
+  /** Today's check-in, or null if not done yet. */
+  checkin: CheckIn | null
+  current_streak: number
+  /** `weeks` for "times per week" habits, `days` for the rest. */
+  streak_unit: 'days' | 'weeks'
+  /** Only for "times per week" habits. */
+  week_progress: WeekProgress | null
+}
+
+/** Response of GET /habits/today/. */
+export interface Today {
+  /** Today in the user's time zone, YYYY-MM-DD. */
+  date: string
+  /** Habits due today and how many of them are done. */
+  summary: { done: number; total: number }
+  due: TodayHabit[]
+  /** Not due today, but can still be ticked off as a bonus. */
+  not_due: TodayHabit[]
+}

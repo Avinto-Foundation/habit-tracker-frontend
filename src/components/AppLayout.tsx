@@ -9,7 +9,7 @@ import Button from './Button'
  * The frame around every page: a "Skip to main content" link, the header (logo +
  * account links) and a `<main>` where the current page (`<Outlet />`) is shown.
  *
- * Header: logged in → a "Habits" link, "Hi, <first name>" and a Log out button;
+ * Header: logged in → "Today" and "Habits" links, "Hi, <first name>" and a Log out button;
  * logged out → Log in / Sign up links; while checking a saved login → nothing.
  */
 export default function AppLayout() {
@@ -35,6 +35,9 @@ export default function AppLayout() {
 
           {status === 'authenticated' && (
             <nav aria-label="Main" className={`${styles.nav} ${styles.mainNav}`}>
+              <NavLink to="/" end className={styles.navLink}>
+                Today
+              </NavLink>
               <NavLink to="/habits" className={styles.navLink}>
                 Habits
               </NavLink>
