@@ -7,7 +7,7 @@ import { expectNoAxeViolations } from '../../test/axe'
 import { fakeGoogle } from '../../test/fakeGoogle'
 import { renderApp } from '../../test/renderApp'
 import { apiUrl, server, testUser } from '../../test/server'
-import { HOME_HEADING } from '../../test/session'
+import { HOME_HEADING, WELCOME_HEADING } from '../../test/session'
 import { GOOGLE_MESSAGES } from './googleMessages'
 
 const REFRESH_KEY = 'habit-tracker.refresh'
@@ -83,14 +83,32 @@ describe('Continue with Google', () => {
     expect(localStorage.getItem(REFRESH_KEY)).toBe('g-refresh')
   })
 
-  it('creates an account from the sign-up page and goes home', async () => {
+  it('creates an account from the sign-up page and goes to onboarding', async () => {
     const sent = fakeGoogleBackend(true)
     renderApp('/signup')
 
     await clickGoogle()
 
-    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: WELCOME_HEADING })).toBeInTheDocument()
     expect(sent.body).toMatchObject({ id_token: 'fake-google-id-token', remember_me: false })
+  })
+
+  it('a first Google sign-in on the login page also goes to onboarding', async () => {
+    fakeGoogleBackend(true)
+    renderApp('/login')
+
+    await clickGoogle()
+
+    expect(await screen.findByRole('heading', { name: WELCOME_HEADING })).toBeInTheDocument()
+  })
+
+  it('an existing account from the sign-up page goes home (no onboarding)', async () => {
+    fakeGoogleBackend(false)
+    renderApp('/signup')
+
+    await clickGoogle()
+
+    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
   })
 
   it('goes back to the page the user wanted after signing in', async () => {

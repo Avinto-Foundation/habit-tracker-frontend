@@ -34,6 +34,9 @@ export default function LoginPage() {
   // e.g. "Your password has been changed…" after a password reset
   const notice = loginNotice(location.state)
   const [formError, setFormError] = useState<string | null>(null)
+  // True while "Continue with Google" signs in: it decides where to go (a brand-new
+  // account goes to onboarding), instead of the "already logged in" rule below.
+  const [googleSigningIn, setGoogleSigningIn] = useState(false)
 
   const {
     register,
@@ -73,7 +76,7 @@ export default function LoginPage() {
   })
 
   if (status === 'loading') return <LoadingScreen />
-  if (status === 'authenticated') return <Navigate to={goTo} replace />
+  if (status === 'authenticated' && !googleSigningIn) return <Navigate to={goTo} replace />
 
   return (
     <AuthPageLayout
@@ -92,8 +95,13 @@ export default function LoginPage() {
 
       <GoogleSignIn
         rememberMe={rememberMe}
-        onSignedIn={() => navigate(goTo, { replace: true })}
-        onError={setFormError}
+        onStart={() => setGoogleSigningIn(true)}
+        // A first Google sign-in creates the account: show onboarding.
+        onSignedIn={(created) => navigate(created ? '/welcome' : goTo, { replace: true })}
+        onError={(message) => {
+          setGoogleSigningIn(false)
+          setFormError(message)
+        }}
       />
 
       <form onSubmit={onSubmit} noValidate>

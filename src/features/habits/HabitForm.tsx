@@ -39,8 +39,8 @@ export interface HabitFormProps {
   submittingText: string
   /** Saves the habit. Throw the API error and the form shows it. */
   onSubmit: (data: HabitInput) => Promise<void>
-  /** Where "Cancel" goes. */
-  cancelTo: string
+  /** Where "Cancel" goes. Leave out to hide Cancel (e.g. onboarding has its own Back). */
+  cancelTo?: string
 }
 
 /** An error message under a group of choices; `id` links it to the group. */
@@ -260,9 +260,11 @@ export default function HabitForm({
         <Button type="submit" loading={isSubmitting} loadingText={submittingText}>
           {submitLabel}
         </Button>
-        <LinkButton to={cancelTo} variant="secondary">
-          Cancel
-        </LinkButton>
+        {cancelTo && (
+          <LinkButton to={cancelTo} variant="secondary">
+            Cancel
+          </LinkButton>
+        )}
       </div>
     </form>
   )

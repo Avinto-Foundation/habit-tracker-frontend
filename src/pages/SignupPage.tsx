@@ -30,7 +30,8 @@ const EMPTY_FORM: SignupFormValues = {
 
 /**
  * Sign-up page (`/signup`). Checks the form in the browser first, then sends it to
- * `POST /api/auth/register/`. On success the user is logged in and sent home.
+ * `POST /api/auth/register/`. On success the user is logged in and sent to onboarding
+ * (`/welcome`). Google: a new account goes to onboarding, an existing one home.
  *
  * Accessibility: every field has a visible label and the right `autoComplete`;
  * errors appear under their field and focus jumps to the first one; problems for
@@ -40,6 +41,9 @@ export default function SignupPage() {
   const { register: createAccount, status } = useAuth()
   const navigate = useNavigate()
   const [formError, setFormError] = useState<string | null>(null)
+  // True once this page starts signing someone in: it then decides where to go
+  // (onboarding), instead of the "already logged in → home" rule below.
+  const [signingIn, setSigningIn] = useState(false)
 
   const {
     register,
@@ -53,6 +57,7 @@ export default function SignupPage() {
 
   const onSubmit = handleSubmit(async (values) => {
     setFormError(null)
+    setSigningIn(true)
     try {
       await createAccount({
         full_name: values.full_name,
@@ -61,8 +66,9 @@ export default function SignupPage() {
         password: values.password,
         password_confirm: values.password_confirm,
       })
-      navigate('/', { replace: true })
+      navigate('/welcome', { replace: true }) // first time: onboarding
     } catch (error) {
+      setSigningIn(false)
       const { fields, message } = parseApiError(error)
       const fieldErrors = Object.entries(fields).filter(([name]) =>
         FORM_FIELDS.includes(name as FormField),
@@ -79,7 +85,7 @@ export default function SignupPage() {
 
   // Still checking a saved login, or already logged in? Nothing to do here yet.
   if (status === 'loading') return <LoadingScreen />
-  if (status === 'authenticated') return <Navigate to="/" replace />
+  if (status === 'authenticated' && !signingIn) return <Navigate to="/" replace />
 
   return (
     <AuthPageLayout
@@ -95,7 +101,14 @@ export default function SignupPage() {
 
       {formError && <Alert>{formError}</Alert>}
 
-      <GoogleSignIn onSignedIn={() => navigate('/', { replace: true })} onError={setFormError} />
+      <GoogleSignIn
+        onStart={() => setSigningIn(true)}
+        onSignedIn={(created) => navigate(created ? '/welcome' : '/', { replace: true })}
+        onError={(message) => {
+          setSigningIn(false)
+          setFormError(message)
+        }}
+      />
 
       <form onSubmit={onSubmit} noValidate>
         <TextField

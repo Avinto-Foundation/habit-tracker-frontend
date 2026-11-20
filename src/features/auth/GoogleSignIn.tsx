@@ -9,6 +9,8 @@ import styles from './GoogleSignIn.module.css'
 export interface GoogleSignInProps {
   /** Keep the login for 7 days (the "Remember me" box on the login page). */
   rememberMe?: boolean
+  /** Called when Google hands over the token, just before signing in with it. */
+  onStart?: () => void
   /** Called after a successful sign-in. `created` is true for a brand-new account. */
   onSignedIn: (created: boolean) => void
   /** Called with a message to show in the page's alert when something goes wrong. */
@@ -43,7 +45,7 @@ export default function GoogleSignIn(props: GoogleSignInProps) {
   )
 }
 
-function GoogleButton({ rememberMe = false, onSignedIn, onError }: GoogleSignInProps) {
+function GoogleButton({ rememberMe = false, onStart, onSignedIn, onError }: GoogleSignInProps) {
   const { loginWithGoogle } = useAuth()
   const [busy, setBusy] = useState(false)
 
@@ -53,6 +55,7 @@ function GoogleButton({ rememberMe = false, onSignedIn, onError }: GoogleSignInP
       return
     }
     setBusy(true)
+    onStart?.()
     try {
       const { created } = await loginWithGoogle(idToken, rememberMe)
       onSignedIn(created)

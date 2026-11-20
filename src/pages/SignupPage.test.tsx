@@ -7,7 +7,7 @@ import { tokenStore } from '../api/tokens'
 import { expectNoAxeViolations } from '../test/axe'
 import { renderApp } from '../test/renderApp'
 import { apiUrl, server, testUser } from '../test/server'
-import { HOME_HEADING } from '../test/session'
+import { HOME_HEADING, WELCOME_HEADING } from '../test/session'
 
 const VALID = {
   fullName: 'Sam Adhikari',
@@ -156,14 +156,14 @@ describe('SignupPage', () => {
 
   // --- Sending ---------------------------------------------------------------
 
-  it('creates the account, logs in and goes to the home page', async () => {
+  it('creates the account, logs in and goes to onboarding', async () => {
     const sent = fakeSignupBackend()
     renderApp('/signup')
 
     await fillForm({ fullName: '  Sam Adhikari  ', email: ' sam@example.com ' })
     await submit()
 
-    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: WELCOME_HEADING })).toBeInTheDocument()
     expect(sent.register).toMatchObject({
       full_name: 'Sam Adhikari', // spaces trimmed
       username: 'sam',
@@ -184,7 +184,7 @@ describe('SignupPage', () => {
     await fillForm()
     await userEvent.type(screen.getByLabelText('Confirm password'), '{Enter}')
 
-    expect(await screen.findByRole('heading', { name: HOME_HEADING })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: WELCOME_HEADING })).toBeInTheDocument()
   })
 
   it('shows "Creating account…" and blocks double clicks while sending', async () => {
@@ -207,7 +207,7 @@ describe('SignupPage', () => {
     const busyButton = await screen.findByRole('button', { name: 'Creating account…' })
     expect(busyButton).toBeDisabled()
     await userEvent.click(busyButton)
-    await screen.findByRole('heading', { name: HOME_HEADING })
+    await screen.findByRole('heading', { name: WELCOME_HEADING })
     expect(registerCalls).toBe(1)
   })
 
@@ -297,7 +297,7 @@ describe('SignupPage', () => {
     await screen.findByRole('alert')
     await submit()
 
-    await screen.findByRole('heading', { name: HOME_HEADING })
+    await screen.findByRole('heading', { name: WELCOME_HEADING })
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
