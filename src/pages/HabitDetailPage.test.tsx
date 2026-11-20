@@ -193,6 +193,7 @@ describe('HabitDetailPage', () => {
     )
 
     expect(region('Check in').getByText('· 19 November')).toBeInTheDocument()
+    expect(screen.getByText('Forgot yesterday? You can still tick it off.')).toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: 'Mark yesterday as done' }))
 
     expect(await screen.findByRole('button', { name: 'Undo yesterday' })).toBeInTheDocument()
@@ -204,6 +205,7 @@ describe('HabitDetailPage', () => {
 
     expect(screen.getByRole('button', { name: 'Mark today as done' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Mark yesterday as done' })).not.toBeInTheDocument()
+    expect(screen.queryByText(/Forgot yesterday/)).not.toBeInTheDocument()
   })
 
   it("undoes today's check-in", async () => {

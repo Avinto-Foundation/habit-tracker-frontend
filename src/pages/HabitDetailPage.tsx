@@ -276,7 +276,9 @@ export default function HabitDetailPage() {
       {!habit.archived && (
         <section aria-labelledby="checkin-heading" className={styles.section}>
           <h2 id="checkin-heading">Check in</h2>
-          <p className={styles.hint}>Forgot yesterday? You can still tick it off.</p>
+          {yesterday >= startDay && (
+            <p className={styles.hint}>Forgot yesterday? You can still tick it off.</p>
+          )}
           <ul className={styles.days}>
             <RecentDay
               label="today"
