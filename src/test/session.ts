@@ -30,5 +30,10 @@ export function fakeLoginOk(user: User = testUser) {
   return sent
 }
 
-/** The home page heading for the test user. */
-export const HOME_HEADING = `Hi, ${testUser.full_name}!`
+/**
+ * The home (Today) page heading for the test user, e.g. "Good morning, Sam".
+ * A pattern, because the greeting depends on the time the test runs.
+ */
+export const HOME_HEADING = new RegExp(
+  `^Good (morning|afternoon|evening), ${testUser.full_name.split(' ')[0]}$`,
+)
