@@ -8,6 +8,12 @@ export interface User {
   email: string
   /** Time zone name, e.g. "Asia/Kathmandu". */
   timezone: string
+  /** A short line about the user (max 160 characters). Empty string if none. */
+  bio: string
+  /** Full URL of the profile photo, or null (then initials are shown). */
+  avatar: string | null
+  /** When the account was created (ISO date-time). */
+  date_joined: string
 }
 
 /** Body for POST /auth/register/. */
@@ -29,7 +35,14 @@ export interface ResetPasswordData {
 }
 
 /** Body for PATCH /auth/me/: send only what changes. */
-export type UpdateMeData = Partial<Pick<User, 'full_name' | 'username' | 'timezone'>>
+export type UpdateMeData = Partial<Pick<User, 'full_name' | 'username' | 'timezone' | 'bio'>>
+
+/** Body for POST /auth/me/password/. */
+export interface ChangePasswordData {
+  current_password: string
+  new_password: string
+  new_password_confirm: string
+}
 
 /** A new access token and refresh token. */
 export interface TokenPair {

@@ -47,6 +47,11 @@ export const tokenStore = {
     return read(localStorage) ?? read(sessionStorage)
   },
 
+  /** True if the login was saved with "Remember me" (refresh token in localStorage). */
+  isRemembered(): boolean {
+    return read(localStorage) !== null
+  },
+
   /** Save both tokens after logging in. `rememberMe` decides which storage is used. */
   setTokens(access: string, refresh: string, rememberMe: boolean) {
     accessToken = access

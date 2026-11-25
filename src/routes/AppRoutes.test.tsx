@@ -116,12 +116,13 @@ describe('AppLayout header', () => {
     expect(nav.getByRole('link', { name: 'Log in' })).not.toHaveAttribute('aria-current')
   })
 
-  it('shows the first name and a Log out button when logged in', async () => {
+  it('shows the account menu (initials + first name) when logged in', async () => {
     startLoggedIn()
     renderApp('/')
 
-    expect(await screen.findByText('Hi, Sam')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Log out' })).toBeInTheDocument()
+    const button = await screen.findByRole('button', { name: 'Account menu for Sam Adhikari' })
+    expect(button).toHaveTextContent('SASam')
+    expect(button).toHaveAttribute('aria-expanded', 'false')
     expect(screen.queryByRole('link', { name: 'Log in' })).not.toBeInTheDocument()
   })
 
@@ -137,6 +138,7 @@ describe('AppLayout header', () => {
     renderApp('/')
     await screen.findByRole('heading', { name: HOME_HEADING })
 
+    await userEvent.click(screen.getByRole('button', { name: /^Account menu/ }))
     await userEvent.click(screen.getByRole('button', { name: 'Log out' }))
 
     expect(await screen.findByRole('heading', { name: 'Welcome back' })).toBeInTheDocument()

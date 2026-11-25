@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import * as authApi from '../../api/auth'
 import { onSessionExpired, refreshAccessToken } from '../../api/client'
 import { tokenStore } from '../../api/tokens'
-import type { RegisterData, UpdateMeData, User } from '../../api/types'
+import type { ChangePasswordData, RegisterData, UpdateMeData, User } from '../../api/types'
 import { getBrowserTimezone } from '../../utils/timezone'
 import { AuthContext, type AuthContextValue, type AuthStatus } from './authContext'
 
@@ -102,9 +102,31 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     return updated
   }, [])
 
+  const setAvatar = useCallback(async (file: File | null) => {
+    const updated = file ? await authApi.uploadAvatar(file) : await authApi.removeAvatar()
+    setUser(updated)
+    return updated
+  }, [])
+
+  const changePassword = useCallback(async (data: ChangePasswordData) => {
+    const rememberMe = tokenStore.isRemembered()
+    const tokens = await authApi.changePassword(data, rememberMe)
+    tokenStore.setTokens(tokens.access, tokens.refresh, rememberMe)
+  }, [])
+
   const value = useMemo<AuthContextValue>(
-    () => ({ user, status, login, register, loginWithGoogle, logout, updateUser }),
-    [user, status, login, register, loginWithGoogle, logout, updateUser],
+    () => ({
+      user,
+      status,
+      login,
+      register,
+      loginWithGoogle,
+      logout,
+      updateUser,
+      setAvatar,
+      changePassword,
+    }),
+    [user, status, login, register, loginWithGoogle, logout, updateUser, setAvatar, changePassword],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

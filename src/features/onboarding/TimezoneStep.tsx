@@ -1,12 +1,11 @@
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { parseApiError } from '../../api/errors'
 import Alert from '../../components/Alert'
 import Button from '../../components/Button'
-import fieldStyles from '../../components/Field.module.css'
+import TimezoneSelect from '../../components/TimezoneSelect'
 import { useAuth } from '../../hooks/useAuth'
 import { getBrowserTimezone } from '../../utils/timezone'
 import styles from './Onboarding.module.css'
-import { timeIn, timezoneOptions, zoneLabel } from './timezones'
 
 export interface TimezoneStepProps {
   /** Move focus to the heading (when the user comes back to this step). */
@@ -19,9 +18,6 @@ export interface TimezoneStepProps {
  * Onboarding step 1: confirm the time zone. It decides when "today" starts and
  * ends, so streaks are counted on the right days. Pre-filled with the zone saved
  * at sign-up (the device's); saved with PATCH /api/auth/me/ only if changed.
- *
- * Accessibility: a native `<select>` (type a letter to jump, e.g. "As" for Asia);
- * the local time there is shown so users can check it at a glance.
  */
 export default function TimezoneStep({ focusHeading, onDone }: TimezoneStepProps) {
   const { user, updateUser } = useAuth()
@@ -31,9 +27,6 @@ export default function TimezoneStep({ focusHeading, onDone }: TimezoneStepProps
   const [fieldError, setFieldError] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
-  const selectId = useId()
-  const [zones] = useState(() => timezoneOptions([saved, getBrowserTimezone()]))
-  const now = timeIn(zone)
 
   useEffect(() => {
     if (focusHeading) headingRef.current?.focus()
@@ -59,10 +52,6 @@ export default function TimezoneStep({ focusHeading, onDone }: TimezoneStepProps
     }
   }
 
-  const describedBy = [`${selectId}-hint`, fieldError ? `${selectId}-error` : null]
-    .filter(Boolean)
-    .join(' ')
-
   return (
     <form onSubmit={handleSubmit} noValidate>
       <h1 ref={headingRef} tabIndex={-1} className={styles.heading}>
@@ -74,33 +63,12 @@ export default function TimezoneStep({ focusHeading, onDone }: TimezoneStepProps
 
       {formError && <Alert>{formError}</Alert>}
 
-      <div className={fieldStyles.field}>
-        <label htmlFor={selectId} className={fieldStyles.label}>
-          Time zone
-        </label>
-        <select
-          id={selectId}
-          className={styles.select}
-          value={zone}
-          aria-invalid={fieldError ? true : undefined}
-          aria-describedby={describedBy}
-          onChange={(event) => setZone(event.target.value)}
-        >
-          {zones.map((option) => (
-            <option key={option} value={option}>
-              {zoneLabel(option)}
-            </option>
-          ))}
-        </select>
-        <p id={`${selectId}-hint`} className={fieldStyles.hint}>
-          {now ? `It's ${now} there now.` : null} We guessed this from your device.
-        </p>
-        {fieldError && (
-          <p id={`${selectId}-error`} className={fieldStyles.error}>
-            {fieldError}
-          </p>
-        )}
-      </div>
+      <TimezoneSelect
+        value={zone}
+        onChange={setZone}
+        hint="We guessed this from your device."
+        error={fieldError ?? undefined}
+      />
 
       <Button type="submit" fullWidth loading={saving} loadingText="Saving…">
         Continue

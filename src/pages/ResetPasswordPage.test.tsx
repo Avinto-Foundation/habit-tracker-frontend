@@ -98,7 +98,7 @@ describe('ResetPasswordPage', () => {
     fakeConfirm()
     server.use(http.post(apiUrl('/auth/logout/'), () => new HttpResponse(null, { status: 401 })))
     renderApp(LINK)
-    await waitFor(() => expect(screen.getByText('Hi, Sam')).toBeInTheDocument())
+    expect(await screen.findByRole('button', { name: /^Account menu/ })).toBeInTheDocument()
 
     await choosePassword()
 

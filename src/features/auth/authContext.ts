@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import type { RegisterData, UpdateMeData, User } from '../../api/types'
+import type { ChangePasswordData, RegisterData, UpdateMeData, User } from '../../api/types'
 
 /**
  * - `loading`: checking whether a saved login is still valid (on page load)
@@ -24,8 +24,15 @@ export interface AuthContextValue {
   ) => Promise<{ user: User; created: boolean }>
   /** Log out on the server and in the browser. Never throws. */
   logout: () => Promise<void>
-  /** Change your own name, username or time zone. */
+  /** Change your own name, username, time zone or bio. */
   updateUser: (data: UpdateMeData) => Promise<User>
+  /** Upload a profile photo, or remove it with `null`. Updates `user`. */
+  setAvatar: (file: File | null) => Promise<User>
+  /**
+   * Change the password. Other devices are logged out; this one keeps going with
+   * the new tokens (saved the same way as before, "Remember me" or not).
+   */
+  changePassword: (data: ChangePasswordData) => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)

@@ -36,4 +36,7 @@ export const testUser: User = {
   username: 'sam',
   email: 'sam@example.com',
   timezone: 'Asia/Kathmandu',
+  bio: '',
+  avatar: null,
+  date_joined: '2026-11-18T08:00:00Z',
 }
