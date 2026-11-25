@@ -1,0 +1,23 @@
+# Files Docker leaves out of the frontend image.
+
+# Installed inside the image with `npm ci` (Linux versions of the packages)
+node_modules/
+
+# Settings: VITE_ values come from .env at run time (env_file in the backend
+# repo's docker-compose.yml), not baked into the image.
+.env
+.env.*
+!.env.example
+
+# Build output, test coverage, Git and editor files
+dist/
+coverage/
+.git/
+.gitignore
+.vscode/
+.idea/
+*.log
+
+# Docker files themselves
+Dockerfile
+.dockerignore
