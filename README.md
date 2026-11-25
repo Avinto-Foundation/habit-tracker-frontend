@@ -61,6 +61,19 @@ npm run dev
 
 The app runs at **http://localhost:5173**.
 
+### Or run everything with Docker
+
+This repo has a `Dockerfile` for the app. The `docker-compose.yml` that starts the
+database, API and this app together lives in the
+[backend repo](https://github.com/Avinto-Foundation/habit-tracker-backend#run-with-docker).
+Clone both repos side by side, then in `habit-tracker-backend` run:
+
+```bash
+docker compose up --build
+```
+
+`VITE_` settings are read from this repo's `.env` if it exists (optional).
+
 ## Environment variables
 
 Create a `.env` file in the project root. Never commit `.env`; only commit `.env.example`.
