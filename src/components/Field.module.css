@@ -91,6 +91,33 @@
   color: var(--color-text);
 }
 
+/* Select (dropdown) and multi-line text box */
+.select,
+.textarea {
+  width: 100%;
+  min-height: 44px; /* big enough to tap (Fitts's Law) */
+  padding: var(--space-2) var(--space-3);
+  font: inherit;
+  color: inherit;
+  background: var(--color-surface);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.select:focus-visible,
+.textarea:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.selectInvalid {
+  border: 2px solid var(--color-error);
+}
+
 /* Checkbox */
 .checkboxRow {
   display: flex;

@@ -68,10 +68,6 @@
   margin-left: var(--space-6);
 }
 
-.greeting {
-  font-weight: 500;
-}
-
 .navLink {
   display: inline-flex;
   align-items: center;

@@ -2,14 +2,15 @@ import { Flame } from 'lucide-react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 import { APP_NAME } from '../utils/constants'
+import AccountMenu from './AccountMenu'
 import styles from './AppLayout.module.css'
-import Button from './Button'
 
 /**
  * The frame around every page: a "Skip to main content" link, the header (logo +
  * account links) and a `<main>` where the current page (`<Outlet />`) is shown.
  *
- * Header: logged in → "Today" and "Habits" links, "Hi, <first name>" and a Log out button;
+ * Header: logged in → "Today" and "Habits" links and the account menu (photo or
+ * initials, with "Your profile" and "Log out");
  * logged out → Log in / Sign up links; while checking a saved login → nothing.
  */
 export default function AppLayout() {
@@ -46,12 +47,7 @@ export default function AppLayout() {
 
           <nav aria-label="Account" className={styles.nav}>
             {status === 'authenticated' && user && (
-              <>
-                <span className={styles.greeting}>Hi, {user.full_name.split(' ')[0]}</span>
-                <Button variant="secondary" onClick={handleLogout}>
-                  Log out
-                </Button>
-              </>
+              <AccountMenu user={user} onLogout={() => void handleLogout()} />
             )}
             {status === 'anonymous' && (
               <>
