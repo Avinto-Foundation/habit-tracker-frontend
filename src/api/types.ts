@@ -68,6 +68,9 @@ export interface GoogleLoginResponse extends LoginResponse {
  */
 export type ScheduleType = 'daily' | 'weekdays' | 'times_per_week'
 
+/** Who else can see a habit: `friends` (on your profile, the default) or `private` (only you). */
+export type Visibility = 'friends' | 'private'
+
 /** A habit, as returned by the backend (`/api/habits/`). */
 export interface Habit {
   id: number
@@ -83,6 +86,7 @@ export interface Habit {
   weekdays: number[]
   /** For `times_per_week`: 1 to 7. Null otherwise. */
   times_per_week: number | null
+  visibility: Visibility
   /** Archived habits are hidden but keep their history. */
   archived: boolean
   created_at: string
@@ -92,7 +96,14 @@ export interface Habit {
 /** Body for creating a habit (POST /habits/). */
 export type HabitInput = Pick<
   Habit,
-  'name' | 'target' | 'icon' | 'color' | 'schedule_type' | 'weekdays' | 'times_per_week'
+  | 'name'
+  | 'target'
+  | 'icon'
+  | 'color'
+  | 'schedule_type'
+  | 'weekdays'
+  | 'times_per_week'
+  | 'visibility'
 >
 
 /** Body for editing a habit (PATCH /habits/<id>/): send only what changes. */
@@ -208,4 +219,32 @@ export interface FriendRequests {
   incoming: Friendship[]
   /** Waiting for their answer. */
   outgoing: Friendship[]
+}
+
+/** The habit itself, as friends see it on a profile (no notes, nothing private). */
+export type SharedHabitInfo = Pick<
+  Habit,
+  'id' | 'name' | 'target' | 'icon' | 'color' | 'schedule_type' | 'weekdays' | 'times_per_week'
+>
+
+/** One habit on someone's profile, with its streak. Days are in the owner's time zone. */
+export interface SharedHabit {
+  habit: SharedHabitInfo
+  current_streak: number
+  longest_streak: number
+  streak_unit: 'days' | 'weeks'
+  done_today: boolean
+  /** Only for "times per week" habits. */
+  week_progress: WeekProgress | null
+}
+
+/** Response of GET /users/<username>/: someone's profile page. */
+export interface Profile extends UserCard {
+  /** `self` when it's your own profile. */
+  friendship_status: FriendshipStatus | 'self'
+  /** Id of the request or friendship (to accept, cancel or unfriend), or null. */
+  friendship_id: number | null
+  date_joined: string
+  /** Habits they share with friends; null when you aren't friends. */
+  habits: SharedHabit[] | null
 }

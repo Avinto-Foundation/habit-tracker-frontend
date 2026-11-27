@@ -9,6 +9,7 @@ import HabitsPage from '../pages/HabitsPage'
 import LoginPage from '../pages/LoginPage'
 import NewHabitPage from '../pages/NewHabitPage'
 import NotFoundPage from '../pages/NotFoundPage'
+import PersonProfilePage from '../pages/PersonProfilePage'
 import ProfilePage from '../pages/ProfilePage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
 import SignupPage from '../pages/SignupPage'
@@ -40,6 +41,7 @@ export default function AppRoutes() {
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/friends" element={<FriendsPage />} />
+          <Route path="/people/:username" element={<PersonProfilePage />} />
           <Route path="/habits" element={<HabitsPage />} />
           <Route path="/habits/new" element={<NewHabitPage />} />
           <Route path="/habits/:id" element={<HabitDetailPage />} />

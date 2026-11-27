@@ -24,6 +24,7 @@ export const habitSchema = z
     schedule_type: z.enum(['daily', 'weekdays', 'times_per_week'], 'Choose how often.'),
     weekdays: z.array(z.string()),
     times_per_week: z.string(),
+    visibility: z.enum(['friends', 'private'], 'Choose who can see it.'),
   })
   .superRefine((values, ctx) => {
     if (values.schedule_type === 'weekdays' && values.weekdays.length === 0) {
@@ -53,6 +54,7 @@ export const EMPTY_HABIT_FORM: HabitFormValues = {
   schedule_type: 'daily',
   weekdays: [],
   times_per_week: '3',
+  visibility: 'friends',
 }
 
 /** Fill the form from a saved habit (for editing). */
@@ -65,6 +67,7 @@ export function habitToFormValues(habit: Habit): HabitFormValues {
     schedule_type: habit.schedule_type,
     weekdays: habit.weekdays.map(String),
     times_per_week: String(habit.times_per_week ?? 3),
+    visibility: habit.visibility,
   }
 }
 
@@ -82,5 +85,6 @@ export function toHabitInput(values: HabitFormValues): HabitInput {
     schedule_type: type,
     weekdays: type === 'weekdays' ? values.weekdays.map(Number).sort((a, b) => a - b) : [],
     times_per_week: type === 'times_per_week' ? Number(values.times_per_week) : null,
+    visibility: values.visibility,
   }
 }

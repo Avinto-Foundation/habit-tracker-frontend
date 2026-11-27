@@ -122,3 +122,11 @@
   font-size: var(--text-lg);
   font-weight: 600;
 }
+
+/* "Only me" after the schedule, for private habits. */
+.private {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: var(--space-2);
+}

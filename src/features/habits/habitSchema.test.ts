@@ -91,6 +91,7 @@ describe('habitToFormValues', () => {
       schedule_type: 'weekdays',
       weekdays: ['1', '3'],
       times_per_week: '3',
+      visibility: 'friends',
     })
   })
 })

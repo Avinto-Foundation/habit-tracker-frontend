@@ -1,4 +1,5 @@
 import { CalendarDays, Clock } from 'lucide-react'
+import { Link } from 'react-router'
 import ChangePasswordForm from '../features/profile/ChangePasswordForm'
 import EditProfileForm from '../features/profile/EditProfileForm'
 import PhotoEditor from '../features/profile/PhotoEditor'
@@ -40,6 +41,9 @@ export default function ProfilePage() {
               Member since {memberSince(user.date_joined)}
             </li>
           </ul>
+          <Link to={`/people/${user.username}`} className={styles.preview}>
+            See how friends see your profile
+          </Link>
         </div>
       </div>
 

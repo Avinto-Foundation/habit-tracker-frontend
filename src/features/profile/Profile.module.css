@@ -108,3 +108,9 @@
 .section h2 {
   font-size: var(--text-lg);
 }
+
+.preview {
+  display: inline-block;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+}

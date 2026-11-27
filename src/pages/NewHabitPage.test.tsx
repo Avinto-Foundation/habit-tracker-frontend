@@ -147,6 +147,7 @@ describe('NewHabitPage', () => {
       schedule_type: 'daily',
       weekdays: [],
       times_per_week: null,
+      visibility: 'friends',
     })
   })
 
@@ -166,6 +167,7 @@ describe('NewHabitPage', () => {
       schedule_type: 'weekdays',
       weekdays: [0, 2, 4],
       times_per_week: null,
+      visibility: 'friends',
     })
   })
 
@@ -184,6 +186,23 @@ describe('NewHabitPage', () => {
       weekdays: [],
       times_per_week: 2,
     })
+  })
+
+  it('shares new habits with friends unless "Only me" is chosen', async () => {
+    const sent = fakeCreateOk()
+    await openForm()
+    expect(screen.getByRole('group', { name: 'Who can see this?' })).toBeInTheDocument()
+    expect(screen.getByRole('radio', { name: 'Friends' })).toBeChecked()
+    expect(screen.getByRole('radio', { name: 'Only me' })).toHaveAccessibleDescription(
+      'Hidden from everyone else',
+    )
+
+    await userEvent.type(screen.getByLabelText('Name'), 'Journal')
+    await userEvent.click(screen.getByRole('radio', { name: 'Only me' }))
+    await submit()
+
+    await screen.findByRole('heading', { name: 'Your habits' })
+    expect(sent.body).toMatchObject({ name: 'Journal', visibility: 'private' })
   })
 
   it('shows "Creating…" and blocks a second click while saving', async () => {

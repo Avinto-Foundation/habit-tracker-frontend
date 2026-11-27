@@ -21,6 +21,7 @@ const FORM_FIELDS = [
   'schedule_type',
   'weekdays',
   'times_per_week',
+  'visibility',
 ] as const
 type FormField = (typeof FORM_FIELDS)[number]
 
@@ -28,6 +29,15 @@ const SCHEDULES = [
   { value: 'daily', label: 'Every day', hint: 'Due every day' },
   { value: 'weekdays', label: 'Specific days', hint: 'e.g. Mon, Wed, Fri' },
   { value: 'times_per_week', label: 'Times per week', hint: 'Any days, e.g. 3 times a week' },
+] as const
+
+const VISIBILITIES = [
+  {
+    value: 'friends',
+    label: 'Friends',
+    hint: 'Your friends see it and your streak on your profile',
+  },
+  { value: 'private', label: 'Only me', hint: 'Hidden from everyone else' },
 ] as const
 
 export interface HabitFormProps {
@@ -55,7 +65,8 @@ function GroupError({ id, message }: { id: string; message?: string }) {
 }
 
 /**
- * The create / edit habit form: name, optional target, icon, colour and schedule.
+ * The create / edit habit form: name, optional target, icon, colour, schedule and
+ * who can see it (friends or only me).
  *
  * Checks the form in the browser first, then calls `onSubmit` with API-ready data.
  * Backend errors appear under the right field and focus moves to the first one.
@@ -255,6 +266,39 @@ export default function HabitForm({
           <GroupError id="habit-times-error" message={errors.times_per_week?.message} />
         </div>
       )}
+
+      <fieldset
+        className={styles.group}
+        aria-describedby={errors.visibility ? 'habit-visibility-error' : undefined}
+      >
+        <legend className={styles.legend}>Who can see this?</legend>
+        <div className={styles.schedules}>
+          {VISIBILITIES.map((option) => (
+            <label key={option.value} className={styles.scheduleChoice}>
+              <input
+                type="radio"
+                value={option.value}
+                className={styles.radio}
+                aria-labelledby={`habit-visibility-${option.value}-label`}
+                aria-describedby={`habit-visibility-${option.value}-hint`}
+                {...register('visibility')}
+              />
+              <span>
+                <span
+                  id={`habit-visibility-${option.value}-label`}
+                  className={styles.scheduleLabel}
+                >
+                  {option.label}
+                </span>
+                <span id={`habit-visibility-${option.value}-hint`} className={styles.hint}>
+                  {option.hint}
+                </span>
+              </span>
+            </label>
+          ))}
+        </div>
+        <GroupError id="habit-visibility-error" message={errors.visibility?.message} />
+      </fieldset>
 
       <div className={styles.actions}>
         <Button type="submit" loading={isSubmitting} loadingText={submittingText}>

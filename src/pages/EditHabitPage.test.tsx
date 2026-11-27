@@ -86,6 +86,7 @@ describe('EditHabitPage', () => {
       schedule_type: 'weekdays',
       weekdays: [0, 3, 4],
       times_per_week: null,
+      visibility: 'friends',
     })
   })
 

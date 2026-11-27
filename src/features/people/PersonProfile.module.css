@@ -1,0 +1,188 @@
+.page {
+  max-width: 720px;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+/* The top card: photo on the left, name, details and friend buttons on the right. */
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+.summary {
+  flex: 1;
+  min-width: 200px;
+}
+
+.name {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.username {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.bio {
+  margin: 0 0 var(--space-3);
+  overflow-wrap: anywhere;
+}
+
+.joined {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Focused by code when the button that was pressed is replaced. */
+.actions:focus {
+  outline: none;
+}
+
+.actions:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* "Friends", "Requested": a status, not a button. */
+.state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.section h2 {
+  font-size: var(--text-lg);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.habit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+/* Emoji in a circle with the habit's colour as the ring (same as the habits list). */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  font-size: 1.375rem;
+  border: 2px solid;
+  border-radius: 50%;
+}
+
+.details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 160px;
+}
+
+.habitName {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: var(--text-sm);
+}
+
+.streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+  color: var(--color-streak);
+}
+
+.best {
+  color: var(--color-text-muted);
+}
+
+.done {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.emptyBox {
+  padding: var(--space-6);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-input-border);
+  border-radius: var(--radius-md);
+}
+
+.emptyBox p {
+  margin: 0 0 var(--space-2);
+}
+
+.emptyTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}

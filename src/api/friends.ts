@@ -1,5 +1,5 @@
 import { api } from './client'
-import type { FriendRequests, Friendship, SearchResult } from './types'
+import type { FriendRequests, Friendship, Profile, SearchResult } from './types'
 
 /** One function per backend friends endpoint. They return the response data or throw. */
 
@@ -52,4 +52,13 @@ export async function listFriends(): Promise<Friendship[]> {
 /** DELETE /friends/<id>/: unfriend (the other person isn't told). */
 export async function unfriend(id: number): Promise<void> {
   await api.delete(`/friends/${id}/`)
+}
+
+/**
+ * GET /users/<username>/: someone's profile. Friends (and you, for your own) also
+ * get the habits shared with friends; for everyone else `habits` is null.
+ */
+export async function getProfile(username: string): Promise<Profile> {
+  const response = await api.get<Profile>(`/users/${encodeURIComponent(username)}/`)
+  return response.data
 }
