@@ -372,6 +372,6 @@ describe('ProfilePage', () => {
     await userEvent.type(form.getByLabelText('Confirm new password'), 'new-Pass-22')
     await userEvent.click(form.getByRole('button', { name: 'Change password' }))
 
-    expect(await form.findByRole('alert')).toHaveTextContent('Request was throttled.')
+    expect(await form.findByRole('alert')).toHaveTextContent(MESSAGES.tooMany)
   })
 })

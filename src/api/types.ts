@@ -170,3 +170,42 @@ export interface HabitStats {
   /** Only when `?month=` was sent. */
   calendar: { month: string; days: CalendarDay[] } | null
 }
+
+/** What anyone may see about another user. Never their email. */
+export interface UserCard {
+  username: string
+  full_name: string
+  bio: string
+  /** Full URL of their photo, or null (initials are shown). */
+  avatar: string | null
+}
+
+/** How the logged-in user relates to someone. */
+export type FriendshipStatus = 'none' | 'request_sent' | 'request_received' | 'friends'
+
+/** A search result: the person plus how you relate to them. */
+export interface SearchResult extends UserCard {
+  friendship_status: FriendshipStatus
+  /** Id of the request or friendship (to accept, cancel or unfriend), or null. */
+  friendship_id: number | null
+}
+
+/** A friend request or friendship, seen by the logged-in user. */
+export interface Friendship {
+  id: number
+  /** Always the other person. */
+  user: UserCard
+  status: 'pending' | 'accepted'
+  /** `incoming`: they asked me. `outgoing`: I asked them. */
+  direction: 'incoming' | 'outgoing'
+  created_at: string
+  accepted_at: string | null
+}
+
+/** Response of GET /friends/requests/. */
+export interface FriendRequests {
+  /** Waiting for my answer. */
+  incoming: Friendship[]
+  /** Waiting for their answer. */
+  outgoing: Friendship[]
+}

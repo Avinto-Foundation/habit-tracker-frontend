@@ -11,6 +11,7 @@ export interface ApiError {
 export const MESSAGES = {
   network: "Can't reach the server. Check your internet connection and try again.",
   server: 'Something went wrong on our side. Please try again in a moment.',
+  tooMany: "You've done that too many times. Please wait a while (up to an hour) and try again.",
   unknown: 'Something went wrong. Please try again.',
 } as const
 
@@ -33,6 +34,9 @@ export function parseApiError(error: unknown): ApiError {
   if (!error.response) return { fields: {}, message: MESSAGES.network }
 
   const { status, data } = error.response
+  // A limit was hit (e.g. 20 friend requests an hour): the backend's own text
+  // ("Request was throttled. Expected available in 3599 seconds.") isn't friendly.
+  if (status === 429) return { fields: {}, message: MESSAGES.tooMany }
   if (status >= 500) {
     // Use the API's own explanation if it sent one (e.g. 503 "Google sign-in is not
     // available right now..."); a crash page (HTML) gets the general message.
