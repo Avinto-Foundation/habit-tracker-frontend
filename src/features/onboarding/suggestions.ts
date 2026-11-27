@@ -16,4 +16,5 @@ export const SUGGESTIONS: HabitInput[] = [
   schedule_type: 'daily',
   weekdays: [],
   times_per_week: null,
+  visibility: 'friends',
 }))

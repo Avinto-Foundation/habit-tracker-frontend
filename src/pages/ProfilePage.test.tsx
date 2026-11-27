@@ -37,6 +37,15 @@ function fileInput() {
 describe('ProfilePage', () => {
   // --- What's on the page ----------------------------------------------------
 
+  it('links to the profile as friends see it', async () => {
+    await openProfile()
+
+    expect(screen.getByRole('link', { name: 'See how friends see your profile' })).toHaveAttribute(
+      'href',
+      `/people/${testUser.username}`,
+    )
+  })
+
   it('shows the photo (or initials), name, username, bio, time zone and join date', async () => {
     await openProfile({ ...testUser, bio: 'Reading 20 pages a day.' })
 

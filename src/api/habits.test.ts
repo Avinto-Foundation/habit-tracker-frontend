@@ -13,6 +13,7 @@ const INPUT: HabitInput = {
   schedule_type: 'weekdays',
   weekdays: [0, 2, 4],
   times_per_week: null,
+  visibility: 'friends',
 }
 
 describe('habits API calls', () => {

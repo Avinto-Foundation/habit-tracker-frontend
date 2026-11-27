@@ -37,6 +37,17 @@ describe('HabitsPage', () => {
     expect(items[1]).toHaveTextContent('Mon, Wed, Fri')
   })
 
+  it('marks private habits with "Only me"', async () => {
+    startLoggedIn()
+    fakeHabitList([HABITS[0], { ...HABITS[1], visibility: 'private' }])
+    renderApp('/habits')
+
+    await screen.findByRole('link', { name: 'Edit Read' })
+    const items = within(screen.getByRole('list')).getAllByRole('listitem')
+    expect(items[0]).not.toHaveTextContent('Only me')
+    expect(items[1]).toHaveTextContent('Only me')
+  })
+
   it('has an Edit link for each habit that names the habit', async () => {
     startLoggedIn()
     fakeHabitList(HABITS)

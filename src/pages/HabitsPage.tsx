@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import { Lock, Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router'
 import { parseApiError } from '../api/errors'
@@ -111,6 +111,11 @@ export default function HabitsPage() {
                 </Link>
                 <span className={styles.meta}>
                   {[habit.target, scheduleLabel(habit)].filter(Boolean).join(' · ')}
+                  {habit.visibility === 'private' && (
+                    <span className={styles.private}>
+                      <Lock size={14} aria-hidden="true" /> Only me
+                    </span>
+                  )}
                 </span>
               </div>
               <Link to={`/habits/${habit.id}/edit`} className={styles.edit}>

@@ -1,5 +1,12 @@
 import { http, HttpResponse } from 'msw'
-import type { FriendRequests, Friendship, SearchResult, UserCard } from '../api/types'
+import type {
+  FriendRequests,
+  Friendship,
+  Profile,
+  SearchResult,
+  SharedHabit,
+  UserCard,
+} from '../api/types'
 import { apiUrl, server } from './server'
 
 /** Another user's public card. */
@@ -66,4 +73,54 @@ export function fakeSearch(results: SearchResult[] | ((query: string) => SearchR
     }),
   )
   return queries
+}
+
+/** A shared habit on a profile. Pass fields to change. */
+export function makeSharedHabit(
+  habit: Partial<SharedHabit['habit']> = {},
+  overrides: Partial<Omit<SharedHabit, 'habit'>> = {},
+): SharedHabit {
+  return {
+    habit: {
+      id: 1,
+      name: 'Run',
+      target: '5 km',
+      icon: '🏃',
+      color: '#15803D',
+      schedule_type: 'daily',
+      weekdays: [],
+      times_per_week: null,
+      ...habit,
+    },
+    current_streak: 4,
+    longest_streak: 9,
+    streak_unit: 'days',
+    done_today: true,
+    week_progress: null,
+    ...overrides,
+  }
+}
+
+/** Someone's profile as GET /users/<username>/ returns it. Strangers get `habits: null`. */
+export function makeProfile(user: UserCard = AARAV, overrides: Partial<Profile> = {}): Profile {
+  return {
+    ...user,
+    friendship_status: 'none',
+    friendship_id: null,
+    date_joined: '2026-11-10T08:00:00Z',
+    habits: null,
+    ...overrides,
+  }
+}
+
+/**
+ * Fake GET /users/<username>/. Pass a function to make the answer change after an
+ * action (it's called on every request).
+ */
+export function fakeProfile(profile: Profile | (() => Profile)) {
+  server.use(
+    http.get(apiUrl('/users/:username/'), () =>
+      HttpResponse.json(typeof profile === 'function' ? profile() : profile),
+    ),
+  )
 }
