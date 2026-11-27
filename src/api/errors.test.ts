@@ -30,6 +30,14 @@ describe('parseApiError', () => {
     })
   })
 
+  it('turns a "too many requests" limit (429) into a friendly message', () => {
+    const error = httpError(429, {
+      detail: 'Request was throttled. Expected available in 3599 seconds.',
+    })
+
+    expect(parseApiError(error)).toEqual({ fields: {}, message: MESSAGES.tooMany })
+  })
+
   it('uses only the first message when a field has several', () => {
     const error = httpError(400, { password: ['Too short.', 'Too common.'] })
 
